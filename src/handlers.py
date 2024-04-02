@@ -61,7 +61,7 @@ async def process_name_handler(message: Message, state: FSMContext):
     # Если ФИО подходит
     await state.update_data(name=full_name)
 
-    await message.reply(f"Спасибо, {full_name}. Ваше ФИО сохранено.")
+    await message.reply(f"Спасибо, {full_name}. Ваше ФИО сохранено")
 
     await message.answer(text.WRITE_PHONE)
 
@@ -76,7 +76,7 @@ async def process_phone_number_handler(message: Message, state: FSMContext):
     # Проверяем формат номера телефона с помощью регулярного выражения
     phone_pattern = re.compile(r'^\d{1} \d{3} \d{3} \d{2} \d{2}$')
 
-    if not phone_pattern.match(phone_number):
+    if not phone_pattern.match(phone_number) or phone_number[0] != '7':
         await message.reply(text.PHONE_ERR)
 
         # Снова устанавливаем состояние, ожидающие ввод номера телефона
@@ -86,7 +86,7 @@ async def process_phone_number_handler(message: Message, state: FSMContext):
     # Если формат номера телефона верный, сохраняем его
     await state.update_data(phone_number=phone_number)
 
-    await message.reply(f"Спасибо, ваш номер телефона {phone_number} сохранен.")
+    await message.reply(f"Спасибо, ваш номер телефона {phone_number} сохранен")
 
     await message.answer(text.WRITE_COMMENT)
 
